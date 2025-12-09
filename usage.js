@@ -1,4 +1,4 @@
-import Veritas from '../src/veritas.js';
+import Veritas from './src/veritas.js';
 
 const form = document.getElementById('myForm');
 

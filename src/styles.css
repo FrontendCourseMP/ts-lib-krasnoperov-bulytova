@@ -4,6 +4,8 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background: #eee9f5;
+    color: #2d213a;
 }
 
 section {
@@ -15,109 +17,123 @@ h1 {
     margin: 10px auto;
     font-size: 4rem;
     line-height: 140%;
+    color: #4b3a71;
 }
 
 form {
-    background-color: #bbb;
+    background: #dcd2ec;
     width: 70%;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 50px;
+    border-radius: 30px;
     margin: 10px auto 30px;
+    box-shadow: 0 0 15px rgba(60, 40, 90, 0.15);
 }
 
 .form-group {
-  margin: 10px auto;
-  width: 70%;
+    margin: 10px auto;
+    width: 70%;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 2rem;
-  line-height: 140%;
-}
-
-legend {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 2rem;
-  line-height: 140%;
+label, legend {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 2rem;
+    line-height: 140%;
+    color: #3a2c53;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #a89ac4;
+    border-radius: 6px;
+    background: #f4f1fa;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #6a52a5;
+    box-shadow: 0 0 6px rgba(106, 82, 165, 0.3);
 }
 
 button[type="submit"] {
-  width: 50%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin: 0 auto;
-  font-size: 2rem;
-  border-radius: 10px;
-  line-height: 140%;
+    width: 50%;
+    padding: 12px;
+    border: none;
+    margin: 0 auto;
+    font-size: 2rem;
+    border-radius: 10px;
+    background: #7359b8;
+    color: white;
+    cursor: pointer;
+    transition: background 0.25s;
 }
 
+button[type="submit"]:hover {
+    background: #5e4699;
+}
 
 input.form-success {
-  border-color: #28a745;
-  background-color: #f8fff9;
+    border-color: #2c8a3c;
+    background-color: #e8f7eb;
+    box-shadow: 0 0 4px rgba(44, 138, 60, 0.5);
 }
 
 input.form-error {
-  border-color: #dc3545;
-  background-color: #fff8f8;
+    border-color: #c03434;
+    background-color: #fdeaea;
+    box-shadow: 0 0 4px rgba(192, 52, 52, 0.5);
 }
 
 .veritas-error-container {
-  min-height: 20px;
-  margin-top: 3px;
-  font-size: 1rem;
+    min-height: 20px;
+    margin-top: 3px;
+    font-size: 1rem;
 }
 
 .veritas-error-container.form-error {
-  color: #dc3545;
-  font-size: 1.2rem;
-  font-weight: 600;
+    color: #c03434;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .checkbox-group {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+    border: 2px solid #b5a3d2;
+    padding: 1rem;
+    border-radius: 6px;
+    background: #e9e2f3;
+    margin-bottom: 1rem;
 }
 
 .checkbox-options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 0.5rem;
 }
 
 .checkbox-group .veritas-error-container,
 fieldset .veritas-error-container {
-  margin-top: 5px;
+    margin-top: 5px;
 }
+
 
 input[type="checkbox"].form-error,
 input[type="radio"].form-error {
-  outline: 2px solid #dc3545;
-  outline-offset: 2px;
-
+    outline: 2px solid #c03434;
+    outline-offset: 2px;
+    border-radius: 50%;
 }
 
 input[type="checkbox"].form-success,
 input[type="radio"].form-success {
-  outline: 2px solid #28a745;
-  outline-offset: 2px;
+    outline: 2px solid #2c8a3c;
+    outline-offset: 2px;
+    border-radius: 50%;
 }
