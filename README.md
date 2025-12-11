@@ -9,6 +9,51 @@ Veritas – это JavaScript-библиотека для валидации HTM
 3. index.html – демонстрационная HTML-форма с разными типами полей.
 4. styles.css – стили для формы и состояний валидации.
 
+#### Установка
+
+```
+import Veritas from './src/veritas.js';
+```
+
+#### Примеры реализации
+##### index.html
+
+```
+<form id="myForm">
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <div class="veritas-error-container"></div>
+  </div>
+  <button type="submit">Отправить</button>
+</form>
+```
+
+#### Обязательные элементы
+
+1. Форма - обычный HTML <form> элемент.
+2. Поля - должны иметь уникальный атрибут name.
+3. Контейнеры ошибок - элементы для отображения ошибок.
+
+##### usage.js
+
+```
+const form = document.getElementById('myForm');
+const validator = new Veritas(form);
+
+validator.addField('email', [
+  { rule: 'required', errorMessage: 'Email обязателен' },
+  { rule: 'email', errorMessage: 'Введите корректный email' }
+]);
+
+form.addEventListener('submit', (e) => {
+  if (!validator.validate()) {
+    e.preventDefault();
+    console.log('Ошибки:', validator.getErrors());
+  }
+});
+```
+
 #### Функционал
 ##### Поддерживаемые правила валидации
 1. required – обязательное поле.
@@ -27,6 +72,11 @@ Veritas – это JavaScript-библиотека для валидации HTM
 4. Кастомные сообщения об ошибках.
 5. Живая валидация при потере фокуса.
 6. Предупреждения о несоответствии HTML-атрибутов и JS-правил.
+
+#### Live-валидация
+Включена по умолчанию:
+1. При потере фокуса (blur) - валидация поля.
+2. При вводе текста (input) - очистка ошибок.
 
 #### Установка и запуск
 ##### Через npm run dev

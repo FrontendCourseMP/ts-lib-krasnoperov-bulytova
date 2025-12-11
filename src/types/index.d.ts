@@ -1,6 +1,6 @@
 export interface ValidationRule {
   rule: string;
-  value?: any;
+  value?: unknown;
   errorMessage?: string;
   warning?: boolean;
 }
@@ -71,7 +71,7 @@ declare class Veritas {
   
   _checkPrerequisites(): boolean;
   _createErrorContainer(field: HTMLElement): HTMLElement;
-  _validateFieldWithRules(field: FieldConfig, value: any): FieldValidationResult;
+  _validateFieldWithRules(field: FieldConfig, value: unknown): FieldValidationResult;
   _checkHTMLAttributesVsRules(field: HTMLInputElement, rules: ValidationRule[]): string[];
 }
 
