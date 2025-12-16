@@ -485,4 +485,129 @@ describe('Veritas - Всесторонние тесты', () => {
       });
     });
   });
+
+    describe('Тест 4: AAA — Happy path и проверка submit', () => {
+    it('Happy path: submit НЕ предотвращается при валидных данных', () => {
+      // Arrange
+      document.body.innerHTML = `
+        <form id="happyForm">
+          <label>Email</label>
+          <input name="email">
+          <div class="veritas-error-container"></div>
+          <button type="submit"></button>
+        </form>
+      `;
+      const form = document.getElementById('happyForm');
+      const validator = new Veritas(form, { suppressWarnings: true });
+
+      validator.addField('email', [{ rule: 'required' }]);
+      form.querySelector('[name="email"]').value = 'test@test.com';
+
+      // Act
+      const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+      const prevented = !form.dispatchEvent(submitEvent);
+
+      // Assert
+      expect(validator.validate()).toBe(true);
+      expect(prevented).toBe(false);
+    });
+  });
+
+  describe('Тест 5: AAA — злой submit (preventDefault)', () => {
+    it('submit предотвращается, если форма невалидна', () => {
+      // Arrange
+      document.body.innerHTML = `
+        <form id="evilForm">
+          <label>Email</label>
+          <input name="email">
+          <div class="veritas-error-container"></div>
+          <button type="submit"></button>
+        </form>
+      `;
+      const form = document.getElementById('evilForm');
+      const validator = new Veritas(form, { suppressWarnings: true });
+
+      validator.addField('email', [{ rule: 'required' }]);
+
+      // Act
+      const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+      const prevented = !form.dispatchEvent(submitEvent);
+
+      // Assert
+      expect(validator.validate()).toBe(false);
+      expect(prevented).toBe(true);
+    });
+  });
+
+  describe('Тест 6: AAA — корявая форма без label', () => {
+    it('библиотека не падает, даже если label отсутствует', () => {
+      // Arrange
+      document.body.innerHTML = `
+        <form id="badForm">
+          <input name="username">
+          <div class="veritas-error-container"></div>
+        </form>
+      `;
+      const form = document.getElementById('badForm');
+
+      // Act
+      const validator = new Veritas(form, { suppressWarnings: true });
+      validator.addField('username', [{ rule: 'required' }]);
+      const result = validator.validateField('username');
+
+      // Assert
+      expect(result.isValid).toBe(false);
+      expect(result.errorMessages.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Тест 7: AAA — библиотека сама чинит разметку', () => {
+    it('создаёт контейнер ошибок, если его нет', () => {
+      // Arrange
+      document.body.innerHTML = `
+        <form id="autoFixForm">
+          <label>Login</label>
+          <input name="login">
+        </form>
+      `;
+      const form = document.getElementById('autoFixForm');
+      const validator = new Veritas(form, { suppressWarnings: true });
+
+      validator.addField('login', [{ rule: 'required' }]);
+
+      // Act
+      validator.validateField('login');
+
+      // Assert
+      const container = form.querySelector('.veritas-error-container');
+      expect(container).toBeTruthy();
+    });
+  });
+
+  describe('Тест 8: AAA — повторная валидация (идемпотентность)', () => {
+    it('validate() можно вызывать много раз без поломки состояния', () => {
+      // Arrange
+      document.body.innerHTML = `
+        <form id="repeatForm">
+          <label>Name</label>
+          <input name="name">
+          <div class="veritas-error-container"></div>
+        </form>
+      `;
+      const form = document.getElementById('repeatForm');
+      const validator = new Veritas(form, { suppressWarnings: true });
+
+      validator.addField('name', [{ rule: 'required' }]);
+
+      // Act
+      const r1 = validator.validate();
+      const r2 = validator.validate();
+      const r3 = validator.validate();
+
+      // Assert
+      expect(r1).toBe(false);
+      expect(r2).toBe(false);
+      expect(r3).toBe(false);
+    });
+  });
 });
