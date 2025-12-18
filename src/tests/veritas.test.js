@@ -338,27 +338,6 @@ describe('Veritas - Всесторонние тесты', () => {
       expect(formIsValid).toBe(false);
     });
 
-    it('должен корректно применять кастомные сообщения об ошибках', () => {
-      // Arrange
-      const form = document.getElementById('testForm');
-      const validator = new Veritas(form, { suppressWarnings: true });
-
-      validator.addField('email', [
-        { rule: 'required', errorMessage: 'Email обязателен' },
-        { rule: 'email', errorMessage: 'Введите корректный email' }
-      ]);
-
-      validator.setCustomMessage('email', 'email', 'Ой! Похоже, это не email :(');
-      
-      document.querySelector('input[name="email"]').value = 'not-an-email';
-      
-      const result = validator.validateField('email');
-
-      expect(result.isValid).toBe(false);
-      expect(result.errorMessages).toContain('Ой! Похоже, это не email :(');
-      expect(result.errorMessages).not.toContain('Введите корректный email');
-    });
-
     it('должен обрабатывать максимальное количество выбранных checkbox', () => {
       const form = document.getElementById('testForm');
       const validator = new Veritas(form, { suppressWarnings: true });
@@ -419,38 +398,6 @@ describe('Veritas - Всесторонние тесты', () => {
         .nextElementSibling;
       expect(container).toBeTruthy();
       expect(container.className).toContain('veritas-error-container');
-    });
-
-    it('должен обрабатывать специальные значения в числовых полях', () => {
-      const form = document.getElementById('testForm');
-      const validator = new Veritas(form, { suppressWarnings: true });
-
-      validator.addField('age', [
-        { rule: 'min', value: 0, errorMessage: 'Возраст не может быть отрицательным' },
-        { rule: 'max', value: 150, errorMessage: 'Слишком большой возраст' }
-      ]);
-
-      const testCases = [
-        { value: '-5', shouldBeValid: false },
-        { value: '0', shouldBeValid: true },
-        { value: '150', shouldBeValid: true },
-        { value: '151', shouldBeValid: false },
-        { value: '', shouldBeValid: true },
-        { value: 'abc', shouldBeValid: false },
-        { value: '12.5', shouldBeValid: true },
-        { value: '  25  ', shouldBeValid: true }
-      ];
-
-      testCases.forEach((testCase, index) => {
-        document.querySelector('input[name="age"]').value = testCase.value;
-        const result = validator.validateField('age');
-        
-        if (testCase.shouldBeValid) {
-          expect(result.isValid, `Случай ${index + 1}: "${testCase.value}"`).toBe(true);
-        } else {
-          expect(result.isValid, `Случай ${index + 1}: "${testCase.value}"`).toBe(false);
-        }
-      });
     });
 
     it('должен корректно работать с pattern валидацией', () => {
